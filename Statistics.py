@@ -23,6 +23,7 @@ def quantile(x, p):
     p_index = int(p * len(x))
     return sorted(x)[p_index]
 
+# Most common value
 def mode(x):
     counts = Counter(x)
     max_count = max(counts.values())
@@ -36,6 +37,7 @@ def de_mean(x):
     x_bar = mean(x)
     return [x_i - x_bar for x_i in x]
 
+# https://en.wikipedia.org/wiki/Variance
 def variance(x):
     n = len(x)
     deviations = de_mean(x)
@@ -48,10 +50,12 @@ def standard_deviation(x):
 def interquartile_range(x):
     return quantile(x, 0.75) - quantile(x, 0.25)
 
+# https://en.wikipedia.org/wiki/Covariance
 def covariance(x, y):
     n = len(x)
     return Vectors.dot(de_mean(x), de_mean(y)) / (n-1)
 
+# https://en.wikipedia.org/wiki/Correlation_and_dependence
 def correlation(x, y):
     stdev_x = standard_deviation(x)
     stdev_y = standard_deviation(y)

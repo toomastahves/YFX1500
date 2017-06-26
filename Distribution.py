@@ -1,24 +1,13 @@
 # -*- coding: utf-8 -*-
 import math
-import random
-
-# https://en.wikipedia.org/wiki/Probability_density_function
-def uniform_pdf(x):
-    return 1 if x >= 0 and x < 1 else 0
-
-# https://en.wikipedia.org/wiki/Cumulative_distribution_function
-def uniform_cdf(x):
-    if x < 0: return 0
-    elif x < 1: return x
-    else: return 1
 
 # https://en.wikipedia.org/wiki/Normal_distribution
-def normal_pdf(x, mu=0, sigma=1):
-    sqrt_two_pi = math.sqrt(2*math.pi)
-    return (math.exp(-(x-mu) ** 2 / 2 /sigma ** 2) / (sqrt_two_pi * sigma))
-
-def normal_cdf(x, mu=0, sigma=1):
-    return (1 + math.erf((x - mu) / math.sqrt(2) / sigma)) / 2
+# Probability density function
+def normal_pdf(x, mu = 0, sigma = 1):
+    return (1/math.sqrt(2*math.pi*sigma**2))*math.exp(-(x-mu)**2/(2*sigma**2))
+# Cumulative distribution function
+def normal_cdf(x, mu = 0, sigma = 1):
+    return 0.5*(1+math.erf((x-mu)/(sigma*math.sqrt(2))))
 
 # https://en.wikipedia.org/wiki/Binary_search_algorithm
 def inverse_normal_cdf(p, mu=0, sigma=1, tolerance=0.00001):
@@ -41,8 +30,9 @@ def inverse_normal_cdf(p, mu=0, sigma=1, tolerance=0.00001):
             break
     return mid_z
 
-def bernoulli_trial(p):
-     return 1 if random.random() < p else 0
- 
-def binomial(n, p):
-    return sum(bernoulli_trial(p) for _ in range(n))
+#Examples
+#from matplotlib import pyplot as plt
+#xs = [x / 10.0 for x in range(-50, 51)]
+#plt.plot(xs, [normal_pdf(x, mu = 0, sigma = math.sqrt(0.2)) for x in xs])
+#plt.plot(xs, [normal_cdf(x, mu = 0, sigma = 1) for x in xs])
+#plt.plot(xs, [inverse_normal_cdf(x, mu = 0, sigma = 1) for x in xs])
