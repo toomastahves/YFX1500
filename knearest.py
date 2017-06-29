@@ -3,15 +3,15 @@ from collections import Counter
 from Vectors import distance
 import matplotlib.pyplot as plt
 
-# Plotting
+# Initial data
 points = [([-122, 47], "Red"),
         ([-96, 32], "Blue"),
-        ([-89, 43], "Green")]
+        ([-89, 43], "Green"),
+        ([-125, 25], "Green")]
 
 plots = { "Red": ([], []), "Blue": ([],[]), "Green": ([], [])}
-markers = {"Red": "o", "Blue": "s", "Green": "^"}
-colors = {"Red": "r", "Blue": "b", "Green": "g"}
 
+# KNN classifer
 def majority_vote(labels):
     vote_counts = Counter(labels)
     winner, winner_count = vote_counts.most_common(1)[0]
@@ -26,18 +26,22 @@ def knn_classify(k, labeled_points, new_point):
     k_nearest_labels = [label for _, label in by_distance[:k]]
     return majority_vote(k_nearest_labels)
 
+# Train model
 k = 1
-        
 for longitude in range(-130, -60):
     for latitude in range(20, 55):
         predicted_point = knn_classify(k, points, [longitude, latitude])
         plots[predicted_point][0].append(longitude)
         plots[predicted_point][1].append(latitude)
         
+# Plotting
+markers = {"Red": "o", "Blue": "s", "Green": "^"}
+colors = {"Red": "r", "Blue": "b", "Green": "g"}
+
 for (longitude, latitude), color in points:
     plots[color][0].append(longitude)
     plots[color][1].append(latitude)
-    
+
 for points, (x, y) in plots.items():
     plt.scatter(x, y, color=colors[points], marker=markers[points], label=points, zorder=10)
     
